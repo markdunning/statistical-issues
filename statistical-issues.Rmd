@@ -1,0 +1,54 @@
+---
+title: "Statistical issues in the analysis of Illumina data"
+output: html_notebook
+---
+
+
+## Introduction
+
+In this document we show how to import the data for the BMC Bioinformatics paper [Statistical issues in the analysis of Illumina data](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-85). We will be using the `beadarray` R package.
+
+
+```{r message = FALSE}
+library(beadarray)
+```
+
+
+```{r}
+targets <- read.delim("spike_targets.txt",sep=" ",stringsAsFactors = FALSE)
+targets
+```
+
+The raw data have been compressed into `.bab` files using the [`BeadDataPackR`](http://europepmc.org/articles/PMC2956622/) bioconductor tool. 
+
+```{r echo=FALSE}
+bld <- readIllumina(dir="data",sectionNames = as.character(targets$ArrayNo))
+```
+
+Summarize into bead summary data. No annotation conversion is performed, and the two strips are kept separate at this stage
+
+```{r}
+bsd <- summarize(bld,useSampleFac = FALSE)
+```
+
+`bsd` has many similarities with standard Bioconductor objects
+
+```{r}
+bsd
+```
+
+A boxplot highlight the difference between well-annotated probes (odd-numbered strips), and probes that are less well-annotated (even strips)
+
+```{r}
+boxplot(exprs(bsd)[,1:12])
+```
+
+Read the spike probe concentrations from the targets file and save in the object
+
+```{r}
+
+targets <- read.table("spike_targets.txt",header=TRUE)
+pData(bsd)$SpikeConc <- targets$SpikeConc
+pData(bsd)
+```
+
