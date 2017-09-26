@@ -1,6 +1,7 @@
-# statistical-issues
-Supplementary Materials for Statistical Issues in the Analysis of Illumina Data
+# Statistical issues in the analysis of Illumina data
+This repository contains data and Supplementary Materials for [Statistical Issues in the Analysis of Illumina Data](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-85)
 
+The data have been compressed using `BeadDataPackR` Bioconductor library and a minimal script to read the data is given in [statistical-issues.Rmd](statistical-issues.Rmd). 
 
 - [Targets file](spike_targets.txt)
 - [Results of re-annotation for all non-spikes and non-controls](NewAnnotationM1.txt)
